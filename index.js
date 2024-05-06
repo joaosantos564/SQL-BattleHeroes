@@ -49,7 +49,7 @@ app.get('/herois', async (req, res) => {
         if (result.rowCount == 0) {
             res.json({
                 status: 'success',
-                message: 'Não há herois cadastrados',
+                message: 'Não há herois cadastrados com esse ID',
             });
         } else {
           res.json({
