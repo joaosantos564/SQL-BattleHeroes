@@ -2,13 +2,27 @@
 -- npm install express pg
 -- npm install -g nodemon
 
+CREATE DATABASE aranhaverso_db;
 
+\c aranhaverso_db;
 
+CREATE TABLE herois (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(200) NOT NULL,
+    poder VARCHAR(200) NOT NULL,
+    nivel INT NOT NULL,
+    hp INT NOT NULL
+);
 
-
-
-
-
+CREATE TABLE batalhas (
+    id SERIAL PRIMARY KEY,
+    heroi01_id INT NOT NULL,
+    heroi02_id INT NOT NULL,
+    vencedor_id INT NOT NULL,
+    FOREIGN KEY (heroi01_id) REFERENCES herois(id),
+    FOREIGN KEY (heroi02_id) REFERENCES herois(id),
+    FOREIGN KEY (vencedor_id) REFERENCES herois(id)
+);
 
 
 
