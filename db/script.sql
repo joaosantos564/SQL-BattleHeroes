@@ -24,8 +24,6 @@ CREATE TABLE batalhas (
     FOREIGN KEY (vencedor_id) REFERENCES herois(id)
 );
 
-
-
 INSERT INTO herois (nome, poder, nivel, hp) VALUES ('Homem-Aranha', 'Geração de teias', 10, 110);
 INSERT INTO herois (nome, poder, nivel, hp) VALUES ('Homem-Aranha (Miles Morales)', 'Bioeletricidade', 10, 110);
 INSERT INTO herois (nome, poder, nivel, hp) VALUES ('Homem-Aranha (Simbionte)', 'Estrutura Corporal', 10, 120);
