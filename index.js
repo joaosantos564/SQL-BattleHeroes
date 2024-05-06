@@ -14,6 +14,51 @@ const pool = new Pool({
 
 app.use(express.json());
 
+async function calcularVencedor(hero1Id, hero2Id) {
+    try {
+        // Consultar informações dos heróis
+        const queryHero1 = await pool.query('SELECT * FROM herois WHERE id = $1', [hero1Id]);
+        const queryHero2 = await pool.query('SELECT * FROM herois WHERE id = $1', [hero2Id]);
+        
+        const hero1 = queryHero1.rows[0];
+        const hero2 = queryHero2.rows[0];
+
+        let vencedorId;
+
+        // Determinar o vencedor
+        if (hero1.nivel > hero2.nivel) {
+            vencedorId = hero1Id;
+        } else if (hero1.nivel < hero2.nivel) {
+            vencedorId = hero2Id;
+        } else {
+            if (hero1.hp > hero2.hp) {
+                vencedorId = hero1Id;
+            } else if (hero1.hp < hero2.hp) {
+                vencedorId = hero2Id;
+            } else {
+                vencedorId = null; // Empate
+            }
+        }
+
+        // Registrar a batalha na tabela de batalhas
+        await pool.query('INSERT INTO batalhas (heroi01_id, heroi02_id, vencedor_id) VALUES ($1, $2, $3)', [hero1Id, hero2Id, vencedorId]);
+
+        return { vencedorId, empate: vencedorId === null };
+    } catch (error) {
+        console.error("Erro ao determinar o vencedor:", error);
+        throw error;
+    }
+}
+
+// Exemplo de uso da função
+const resultado = await determinarVencedor(1, 2);
+if (resultado.empate) {
+    console.log("Empate!");
+} else {
+    console.log(`O herói vencedor é: ${resultado.vencedorId}`);
+}
+
+
 app.get('/herois', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM herois');
