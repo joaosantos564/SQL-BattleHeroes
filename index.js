@@ -68,6 +68,24 @@ app.get('/herois', async (req, res) => {
   
   });
 
+  app.post('/herois', async (req, res) => {
+    const { nome, poder, nivel, hp  } = req.body;
+    const query = 'INSERT INTO herois (  nome, poder, nivel, hp  ) VALUES ($1, $2, $3, $4) RETURNING *';
+    const values = [nome, poder, nivel, hp ];
+  try {
+        const result = await pool.query('INSERT INTO herois (  nome, poder, nivel, hp  ) VALUES ($1, $2, $3, $4) RETURNING *', [ nome, poder, nivel, hp]);
+        res.status(201).json({
+            status: 'success',
+            message: 'Herois criado com sucesso🕷',
+            dados: result.rows[0],
+        });
+    } catch (error) {
+        console.error('Erro ao inserir heroi', error);
+        res.status(500).send('Erro ao inserir heroi');
+    }
+  });
+
+
 // Iniciando o servidor http://localhost:5000
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
