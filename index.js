@@ -26,7 +26,35 @@ app.get('/herois', async (req, res) => {
         } else {
           res.json({
             status: 'success',
-            message: 'herois encontrados🕷',
+            message: 'Herois encontrados🕷',
+            total: result.rowCount,
+            dados: result.rows,
+        })
+        }
+  
+        
+    } catch (error) {
+        console.error('Erro ao buscar herois', error);
+        res.status(500).send('Erro ao buscar herois');
+    }
+  
+  });
+
+  app.get('/herois/:id', async (req, res) => {
+    const id = req.params.id;
+    
+    try {
+        const result = await pool.query('SELECT * FROM herois WHERE id=$1', [id]);
+
+        if (result.rowCount == 0) {
+            res.json({
+                status: 'success',
+                message: 'Não há herois cadastrados',
+            });
+        } else {
+          res.json({
+            status: 'success',
+            message: 'Herois encontrados🕷',
             total: result.rowCount,
             dados: result.rows,
         })
