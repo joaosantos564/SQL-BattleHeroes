@@ -93,7 +93,7 @@ app.get('/herois', async (req, res) => {
         const result = await pool.query('DELETE FROM herois WHERE id=$1', [id]);
         res.json({
             status: 'success',
-            message: 'Heroi deletado com sucesso',
+            message: 'Heroi deletado com sucesso🕷',
         });
     } catch (error) {
         console.error('Erro ao deletar heroi', error);
