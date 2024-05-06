@@ -85,6 +85,23 @@ app.get('/herois', async (req, res) => {
     }
   });
 
+ app.put('/herois/:id', async (req, res) => {
+    const id = req.params.id;
+    const { nome, poder, nivel, hp  } = req.body;
+    const query = 'UPDATE herois SET nome=$1, poder=$2, nivel=$3, hp=$4  WHERE id=$5';
+    const values = [nome, poder, nivel, hp ];
+  try {
+        const result = await pool.query('UPDATE herois SET nome=$1, poder=$2, nivel=$3, hp=$4  WHERE id=$5', [ nome, poder, nivel, hp, id]);
+        res.status(201).json({
+            status: 'success',
+            message: 'Herois alterado com sucesso🕷',
+            dados: result.rows[0],
+        });
+    } catch (error) {
+        console.error('Erro ao inserir Heroi', error);
+        res.status(500).send('Erro ao inserir Heroi');
+    }
+  });
 
 // Iniciando o servidor http://localhost:5000
 app.listen(port, () => {
