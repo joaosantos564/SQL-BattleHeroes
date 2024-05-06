@@ -85,6 +85,22 @@ app.get('/herois', async (req, res) => {
     }
   });
 
+  app.delete('/herois/:id', async (req, res) => {
+    const id = req.params.id;
+    const query = 'DELETE FROM herois WHERE id=$1';
+  
+    try {
+        const result = await pool.query('DELETE FROM herois WHERE id=$1', [id]);
+        res.json({
+            status: 'success',
+            message: 'Heroi deletado com sucesso',
+        });
+    } catch (error) {
+        console.error('Erro ao deletar heroi', error);
+        res.status(500).send('Erro ao deletar Heroi');
+    }
+  });
+
  app.put('/herois/:id', async (req, res) => {
     const id = req.params.id;
     const { nome, poder, nivel, hp  } = req.body;
