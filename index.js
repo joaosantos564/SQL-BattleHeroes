@@ -14,49 +14,35 @@ const pool = new Pool({
 
 app.use(express.json());
 
-async function calcularVencedor(hero1Id, hero2Id) {
-    try {
-        // Consultar informações dos heróis
-        const queryHero1 = await pool.query('SELECT * FROM herois WHERE id = $1', [hero1Id]);
-        const queryHero2 = await pool.query('SELECT * FROM herois WHERE id = $1', [hero2Id]);
-        
-        const hero1 = queryHero1.rows[0];
-        const hero2 = queryHero2.rows[0];
+async function calcularVencedor(heroi01_id, heroi02_id) {
+    const hero1 = await pool.query('SELECT * FROM herois WHERE id = $1', [heroi01_id]);
+    const hero2 = await pool.query('SELECT * FROM herois WHERE id = $1', [heroi02_id]);
 
-        let vencedorId;
+    const totalDanoHero1 = hero1.rows[0].dano * hero1.rows[0].nivel;
+    const totalDanoHero2 = hero2.rows[0].dano * hero2.rows[0].nivel;
 
-        // Determinar o vencedor
-        if (hero1.nivel > hero2.nivel) {
-            vencedorId = hero1Id;
-        } else if (hero1.nivel < hero2.nivel) {
-            vencedorId = hero2Id;
+    const hpHero1 = hero1.rows[0].hp;
+    const hpHero2 = hero2.rows[0].hp;
+
+    if (totalDanoHero1 >= hpHero2) {
+        return heroi01_id;
+    } else if (totalDanoHero2 >= hpHero1) {
+        return heroi02_id;
+    } else {
+        const danoTotalHero1 = totalDanoHero1 + hpHero1;
+        const danoTotalHero2 = totalDanoHero2 + hpHero2;
+
+        if (danoTotalHero1 > danoTotalHero2) {
+            return heroi01_id;
+        } else if (danoTotalHero2 > danoTotalHero1) {
+            return heroi02_id;
         } else {
-            if (hero1.hp > hero2.hp) {
-                vencedorId = hero1Id;
-            } else if (hero1.hp < hero2.hp) {
-                vencedorId = hero2Id;
-            } else {
-                vencedorId = null; // Empate
-            }
+            // Se houver um empate na soma de danos, retorna null
+            return null;
         }
-
-        // Registrar a batalha na tabela de batalhas
-        await pool.query('INSERT INTO batalhas (heroi01_id, heroi02_id, vencedor_id) VALUES ($1, $2, $3)', [hero1Id, hero2Id, vencedorId]);
-
-        return { vencedorId, empate: vencedorId === null };
-    } catch (error) {
-        console.error("Erro ao determinar o vencedor:", error);
-        throw error;
     }
 }
 
-// Exemplo de uso da função
-const resultado = await determinarVencedor(1, 2);
-if (resultado.empate) {
-    console.log("Empate!");
-} else {
-    console.log(`O herói vencedor é: ${resultado.vencedorId}`);
-}
 
 
 app.get('/herois', async (req, res) => {
@@ -163,6 +149,117 @@ app.get('/herois', async (req, res) => {
         res.status(500).send('Erro ao inserir Heroi');
     }
   });
+
+//   app.get('/batalhas/:heroi01_id/:heroi02_id', async (req, res) => {
+//     const { heroi01_id, heroi02_id } = req.params;
+
+//     try {
+//         const vencedorId = await calcularVencedor(heroi01_id, heroi02_id);
+
+//         if (vencedorId) {
+//             res.json({
+//                 status: 'success',
+//                 message: `O herói vencedor é o: ${vencedorId}`,
+//                 vencedor_id: vencedorId,
+//             });
+//         } else {
+//             res.json({
+//                 status: 'success',
+//                 message: 'A batalha terminou em empate',
+//             });
+//         }
+//     } catch (error) {
+//         console.error('Erro ao calcular vencedor da batalha', error);
+//         res.status(500).send('Erro ao calcular vencedor da batalha');
+//     }
+// });
+
+// app.get('/batalhas/:heroi01_id/:heroi02_id', async (req, res) => {
+//     const { heroi01_id, heroi02_id } = req.params;
+
+//     try {
+//         const query = 'SELECT vencedor_id, herois1.nome AS nome_heroi1, herois2.nome AS nome_heroi2 FROM batalhas INNER JOIN herois AS herois1 ON batalhas.heroi01_id = herois1.id INNER JOIN herois AS herois2 ON batalhas.heroi02_id = herois2.id WHERE batalhas.heroi01_id = $1 AND batalhas.heroi02_id = $2;', [id];
+//         const result = await pool.query(query, [heroi01_id, heroi02_id]);
+
+//         if (result.rowCount > 0) {
+//             const vencedor = result.rows[0];
+//             res.json({
+//                 status: 'success',
+//                 message: 'O herói vencedor é o: ${vencedorId}',
+//                 vencedor_id: vencedor.id,
+//                 vencedor_nome: vencedor.nome,
+//             });
+//         } else {
+//             res.json({
+//                 status: 'success',
+//                 message: 'A batalha terminou em empate',
+//             });
+//         }
+//     } catch (error) {
+//         console.error('Erro ao calcular vencedor da batalha', error);
+//         res.status(500).send('Erro ao calcular vencedor da batalha');
+//     }
+// });
+
+// app.get('/batalhas/:heroi01_id/:heroi02_id', async (req, res) => {
+//     const { heroi01_id, heroi02_id } = req.params;
+
+//     try {
+//         const vencedorId = await calcularVencedor(heroi01_id, heroi02_id);
+
+//         if (vencedorId) {
+//             const query = 'SELECT batalhas.id, hero1_id, hero2_id, winner_id, heroes.name as winner_name, heroes.power as winner_power, heroes.level as winner_level, heroes.hp as winner_hp FROM battles INNER JOIN heroes ON battles.winner_id = heroes.id'';
+//             const result = await pool.query(query, [vencedorId]);
+            
+//             if (result.rowCount > 0) {
+//                 const nomeVencedor = result.rows[0].nome_vencedor;
+//                 res.json({
+//                     status: 'success',
+//                     message: `O herói vencedor é: ${nomeVencedor}`,
+//                     vencedor_nome: nomeVencedor,
+//                 });
+//             } else {
+//                 res.json({
+//                     status: 'success',
+//                     message: 'Herói vencedor não encontrado',
+//                 });
+//             }
+//         } else {
+//             res.json({
+//                 status: 'success',
+//                 message: 'A batalha terminou em empate',
+//             });
+//         }
+//     } catch (error) {
+//         console.error('Erro ao calcular vencedor da batalha', error);
+//         res.status(500).send('Erro ao calcular vencedor da batalha');
+//     }
+// });
+
+app.get('/batalhas/:heroi01_id/:heroi02_id', async (req, res) => {
+    const { heroi01_id, heroi02_id } = req.params;
+
+    try {
+        const vencedorId = await calcularVencedor(heroi01_id, heroi02_id);
+
+        await pool.query('INSERT INTO batalhas (heroi01_id, heroi02_id, vencedor_id) VALUES ($1, $2, $3)', [heroi01_id, heroi02_id, vencedorId]);
+
+        //exibe o vencedor (todos os dados) e a mensagem de sucesso de registro
+
+        const { rows } = await pool.query('SELECT * FROM herois WHERE id = $1', [vencedorId]);
+        res.json({
+    status: 'success',
+    message: `O herói vencedor é o: ${vencedorId}`,
+    vencedor_id: vencedorId,
+        });
+    } catch (error) {
+        console.error('Erro ao deletar heroi', error);
+        res.status(500).send('Erro ao deletar Heroi');
+    }
+  });
+
+  //
+  
 
 // Iniciando o servidor http://localhost:5000
 app.listen(port, () => {

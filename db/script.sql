@@ -25,26 +25,26 @@ CREATE TABLE batalhas (
     FOREIGN KEY (vencedor_id) REFERENCES herois(id)
 );
 
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Aranha', 'Geração de teias', 100, 10, 110);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Aranha (Miles Morales)', 'Bioeletricidade', 100, 10, 110);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Aranha', 'Geração de teias', 120, 10, 110);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Aranha (Miles Morales)', 'Bioeletricidade', 120, 10, 110);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Aranha (Simbionte)', 'Estrutura Corporal', 90, 10, 120);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Aranha (2099)', 'Garras Afiadas', 100, 10, 100);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Aranha (2099)', 'Garras Afiadas', 120, 10, 100);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Aranha (Noir)', 'Armas de Fogo', 90, 10, 90);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Spider-Gwen', 'Reflexos Sobre-Humanos', 80, 10, 80);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Spider-Gwen', 'Reflexos Sobre-Humanos', 100, 10, 80);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Anti-Venom', 'Durabilidade Sobre-Humana', 80, 10, 130);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Venom', 'Resistência e Força sobre-humanas', 100, 10, 120);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Duende-Verde', 'Esferas Explosivas', 90, 10, 80);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Doutor Octopus', 'Tentáculos Robóticos', 90, 10, 90);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Lagarto', 'Regeneração', 80, 10, 80);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Areia', 'Manipulação de Areia', 80, 10, 80);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Venom', 'Resistência e Força sobre-humanas', 120, 10, 120);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Duende-Verde', 'Esferas Explosivas', 100, 10, 80);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Doutor Octopus', 'Tentáculos Robóticos', 100, 10, 90);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Lagarto', 'Regeneração', 100, 10, 80);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Homem-Areia', 'Manipulação de Areia', 90, 10, 80);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Electro', 'Eletrocinese', 80, 10, 90);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Mancha', 'Manipulação de Energia Escura', 100, 10, 140);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Mancha', 'Manipulação de Energia Escura', 120, 10, 140);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Mysterio', 'Ilusão', 80, 10, 80);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Escorpião', 'Envenenamento', 80, 10, 80);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Rhino', 'Chifre Resistente', 80, 10, 90);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Rhino', 'Chifre Resistente', 100, 10, 90);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Rei do Crime', 'Super Força', 100, 10, 100);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Abutre', 'Asas Tecnologicas', 80, 10, 80);
-INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Kraven', 'Caça Impecável', 90, 10, 100);
+INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Kraven', 'Caça Impecável', 100, 10, 100);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Camaleão', 'Disfarce', 80, 10, 80);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Carnificina', 'Armas de Simbionte', 100, 10, 130);
 INSERT INTO herois (nome, poder, dano, nivel, hp) VALUES ('Gata Negra', 'Garras Retráteis', 80, 10, 80);
